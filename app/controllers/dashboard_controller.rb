@@ -26,7 +26,6 @@ class DashboardController < ApplicationController
 
 	def show
 		token = current_token
-		
 		uri = URI(vehicles_url[:url])
         http = Net::HTTP.new(uri.host, uri.port)
         req = Net::HTTP::Get.new(uri.path, {'Content-Type' =>'application/json',  
