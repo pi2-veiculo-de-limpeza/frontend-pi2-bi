@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RCS App</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style type="text/css">
+
+
+
+    .esqueci_minha_senha {
+      background: white;
+      border: solid 1px #2c3e50;
+      border-radius: 4px;
+      padding: 10px 20px;
+      display: none;
+    }
+
+  .item_form {
+    margin-bottom: 10px;
+  }
+
+  .wrapper_login {
+    float: left;
+    width: 100%;
+      margin-top: 10px;
+      border: solid 1px #647997;
+      padding: 15px 20px;
+      border-radius: 3px;
+  }
+
+  .wrapper_conteudo_principal {
+            background: white;
+            margin-left: -10px;
+            margin-right: -10px;
+            margin-bottom: 5px;
+            padding: 10px 15px;
+            border-radius: 3px;
+            min-height: 80vh;
+            color: black;
+            position: relative;
+            border-top: solid 3px #03a5e1;
+            border-bottom: solid 3px #03a5e1;
+        }
+
+
+    .marca_sgm {
+            width: 120px;
+            height: 81px;
+            position: relative;
+            left: 10px;
+            top: 7px;
+            font-family: Montserrat;
+            font-size: 3.5em;
+            padding: 1px 20px 1px 7px;
+            border: solid 3px #b5c5de;
+            font-weight: bold;
+            border-radius: 8px;
+            border-left: none;
+            border-right: none;
+            border-top-width: 2px;
+
+        }
+
+        .marca_sgm span{
+            
+            position: relative;
+            left: 74px;
+            top: -47px;
+            font-family: "Times New Roman", Times, serif;
+            font-weight: normal;
+            font-size: 0.35em;
+            padding: 0px 0px;
+            padding: 1px 0px;
+
+            
+        }        
+
+  </style>
+</head>
+<body>
+
+  <div class="col-lg-12">
+      <div class="row">
+          <div class="menu_top">
+
+              <div class="item_menu_top">
+                  <a id="logo" href="/" class="navbar-brand">
+                      gesiel
+                  </a>
+              </div>
+
+          </div>
+      </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="row wrapper_conteudo_principal">
+
+        <div class="flash_msgs">
+
+            <% if flash[:notice] %>
+                <div class="notice">
+                    <%= flash[:notice].to_s.html_safe %>
+                </div>
+            <% end %>
+
+            <% if flash[:errors] %>
+                <div class="errors">
+                    <%= flash[:errors] %>
+                </div>
+            <% end %>
+
+        </div>
+
+        <div class="col-xs-12 col-lg-6 col-lg-offset-3">
+          
+
+          <h4>
+            <i class="fa fa-chevron-right step"></i>
+            Entrar
+          </h4>
+
+          <div class="wrapper_login">
+
+            <div class="form_usuario_externo">
+
+              <%= form_tag dashboard_index_path, :method=>'post', :class=>'form_login' do %>
+
+                <div class="item_form">
+                  Informe seu email
+                  <%= text_field_tag :login, params['email'], :autofocus => true, :class=> 'form-control', placeholder: 'email' %>
+                </div>
+
+                <div class="item_form">
+                  Digite sua senha
+                  <%= password_field_tag :password, nil, :class=> 'form-control', placeholder: 'insira uma senha' %>
+                </div>
+
+                <div class="item_form">
+                  <%= submit_tag 'entrar', class: 'btn btn-info btn-lg pull-right' %>
+                </div>
+
+              <% end %>
+            </div>
+          </div>
+
+        </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
