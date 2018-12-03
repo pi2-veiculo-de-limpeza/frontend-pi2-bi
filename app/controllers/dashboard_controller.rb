@@ -41,7 +41,7 @@ class DashboardController < ApplicationController
 
         	resp = http.request(req)
 
-        	etl_missions_vehicles = JSON.parse(resp.body)
+        	@etl_missions_vehicles = JSON.parse(resp.body)
         	
         else
         	flash[:errors] = "preencha o email e a senha corretamente"
