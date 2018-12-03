@@ -67,7 +67,7 @@ a:hover {
 .inforide {
   box-shadow: 1px 2px 8px 0px #f1f1f1;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 6px;
   height: 125px;
 }
 
@@ -76,11 +76,11 @@ a:hover {
 }
 
 .ridetwo img {
-  width: 60%;
+  width: 70%;
 }
 
 .ridethree img {
-  width: 50%;
+  width: 70%;
 }
 
 .rideone {
