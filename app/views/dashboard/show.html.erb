@@ -123,34 +123,21 @@
     </div>
   </div>
 </div>
+
 <script>
-
-  /*var disciplinas = []*/
-
 
   var area_por_missao = <%= raw @area_por_missao_values.to_json %>;
   var lixo_por_missao = <%= raw @lixo_por_missao_values.to_json%>;
   var missao_name = <%= raw @missions.values.to_json%>;
-  console.log(lixo_por_missao)
-  console.log(missao_name)
 
-var disciplinas = [
-  {key: "Missão 1",               value: 78},
-  {key: "Missão 2",            value: 71},
-  {key: "Missão 3",       value: 67},
-  {key: "Missão 4",          value: 93},
-  {key: "Sistemas Operacionais I",      value: 59},
-  {key: "Física Experimental",      value: 43},
-  {key: "Engenharia de Software",     value: 88},
-  {key: "Estrutura de Dados",       value: 36},
-  {key: "Algoritmos I",             value: 91},
-  {key: "Algoritmos II",          value: 74},
-  {key: "Programação Java",         value: 67},
-  {key: "Programação Python",       value: 75}
-];
+  for (var aux = 0; aux < missao_name.length; aux++) { 
+    var lixo_por_missao_key = [
+      {key: missao_name[0], value: lixo_por_missao[0]},
+      {key: missao_name[1], value: lixo_por_missao[1]},
+      {key: missao_name[2], value: lixo_por_missao[2]}
+    ];
+  }
   
-
-
 var w = 800;
 var h = 450;
 var margin = {
@@ -196,7 +183,7 @@ var chart = svg.append("g")
       .classed("display", true)
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-function plot(params){
+function plotBar(params){
   this.append("g")
     .call(params.gridlines)
     .classed("gridline", true)
@@ -269,8 +256,8 @@ function plot(params){
     .text("Missões");
 }
 
-plot.call(chart, {
-  data: lixo_por_missao,
+plotBar.call(chart, {
+  data: lixo_por_missao_key,
   axis:{
     x: xAxis,
     y: yAxis
@@ -279,5 +266,270 @@ plot.call(chart, {
 });
 
 </script> 
+
+
+<!-- <script>
+
+  var area_por_missao = <%= raw @area_por_missao_values.to_json %>;
+  var lixo_por_missao = <%= raw @lixo_por_missao_values.to_json%>;
+  var missao_name = <%= raw @missions.values.to_json%>;
+
+  for (var aux = 0; aux < missao_name.length; aux++) { 
+    var area_por_missao_key = [
+      {key: missao_name[0], value: area_por_missao[0]},
+      {key: missao_name[1], value: area_por_missao[1]},
+      {key: missao_name[2], value: area_por_missao[2]}
+    ];
+  }
+
+  console.log(area_por_missao_key)
+  
+var w = 800;
+var h = 450;
+var margin = {
+  top: 58,
+  bottom: 150,
+  left: 80,
+  right: 40
+};
+
+var width = w - margin.left - margin.right;
+var height = h - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .domain(missao_name)
+    .rangeBands([0, width]);
+
+var y = d3.scale.linear()
+    .domain([0, d3.max(lixo_por_missao)])
+    .range([height, 0]);
+
+var ordinalColorScale = d3.scale.category20();
+
+var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+      
+var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
+
+var yGridlines = d3.svg.axis()
+        .scale(y)
+        .tickSize(-width,0,0)
+        .tickFormat("")
+        .orient("left");
+
+var svg = d3.select("#chart-print").append("svg")
+      .attr("id", "chart")
+      .attr("width", w)
+      .attr("height", h);
+
+var chart = svg.append("g")
+      .classed("display", true)
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+function arco(){
+    var el = document.getElementById("arco").getContext("2d");
+    
+    // apagar antes de usar
+      el.clearRect(0,0,500,500);
+      el.beginPath();
+      el.arc(x,y,controls.radius,min,max,false);
+      el.lineWidth = controls.lineWeight;
+      el.strokeStyle = controls.trackColor;    
+      el.stroke();
+
+    // desenhar o valor para preenchimento
+      el.beginPath();
+      el.arc(x,y,controls.radius,min,controls.value,false);
+      el.lineWidth = controls.lineWeight;
+      el.strokeStyle = controls.trackBarColor;
+      el.stroke();
+
+    // add label
+     el.fillText((Math.abs((controls.value)*100/Math.PI)-100).toFixed(0),x-5,y);
+}
+
+arco.call(chart, {
+  data: area_por_missao_key,
+  gridlines: yGridlines
+});
+
+</script>  -->
+
+
+<style>
+path {  stroke: #fff; }
+path:hover {  opacity:0.9; }
+rect:hover {  fill:blue; }
+.axis {  font: 10px sans-serif; }
+.legend tr{    border-bottom:1px solid grey; }
+.legend tr:first-child{    border-top:1px solid grey; }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {  display: none; }
+.legend{
+    margin-bottom:76px;
+    display:inline-block;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+.legend td{
+    padding:4px 5px;
+    vertical-align:bottom;
+}
+.legendFreq, .legendPerc{
+    align:right;
+    width:50px;
+}
+
+</style> 
+<div id='dashboard'>
+</div>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+  function dashboard(id, fData){
+    var barColor = 'steelblue';
+    function segColor(c){ 
+      return {low:"#807dba", mid:"#e08214",high:"#41ab5d"}[c]; 
+    }
+    
+    // compute total for each state.
+    fData.forEach(function(d){d.total=d.freq.low+d.freq.mid+d.freq.high;});
+  
+   // function to handle pieChart.
+    function pieChart(pD){
+        var pC ={},    pieDim ={w:250, h: 250};
+        pieDim.r = Math.min(pieDim.w, pieDim.h) / 2;
+                
+        // create svg for pie chart.
+        var piesvg = d3.select(id).append("svg")
+            .attr("width", pieDim.w).attr("height", pieDim.h).append("g")
+            .attr("transform", "translate("+pieDim.w/2+","+pieDim.h/2+")");
+        
+        // create function to draw the arcs of the pie slices.
+        var arc = d3.svg.arc().outerRadius(pieDim.r - 10).innerRadius(0);
+
+        // create a function to compute the pie slice angles.
+        var pie = d3.layout.pie().sort(null).value(function(d) { return d.freq; });
+
+        // Draw the pie slices.
+        piesvg.selectAll("path").data(pie(pD)).enter().append("path").attr("d", arc)
+            .each(function(d) { this._current = d; })
+            .style("fill", function(d) { return segColor(d.data.type); })
+            .on("mouseover",mouseover).on("mouseout",mouseout);
+
+        // create function to update pie-chart. This will be used by histogram.
+        pC.update = function(nD){
+            piesvg.selectAll("path").data(pie(nD)).transition().duration(500)
+                .attrTween("d", arcTween);
+        }        
+        // Utility function to be called on mouseover a pie slice.
+        function mouseover(d){
+            // call the update function of histogram with new data.
+            hG.update(fData.map(function(v){ 
+                return [v.State,v.freq[d.data.type]];}),segColor(d.data.type));
+        }
+        //Utility function to be called on mouseout a pie slice.
+        function mouseout(d){
+            // call the update function of histogram with all data.
+            hG.update(fData.map(function(v){
+                return [v.State,v.total];}), barColor);
+        }
+        // Animating the pie-slice requiring a custom function which specifies
+        // how the intermediate paths should be drawn.
+        function arcTween(a) {
+            var i = d3.interpolate(this._current, a);
+            this._current = i(0);
+            return function(t) { return arc(i(t));    };
+        }    
+        return pC;
+    }
+
+        // function to handle legend.
+    function legend(lD){
+        var leg = {};
+            
+        // create table for legend.
+        var legend = d3.select(id).append("table").attr('class','legend');
+        
+        // create one row per segment.
+        var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");
+            
+        // create the first column for each segment.
+        tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("rect")
+            .attr("width", '16').attr("height", '16')
+      .attr("fill",function(d){ return segColor(d.type); });
+            
+        // create the second column for each segment.
+        tr.append("td").text(function(d){ return d.type;});
+
+        // create the third column for each segment.
+        tr.append("td").attr("class",'legendFreq')
+            .text(function(d){ return d3.format(",")(d.freq);});
+
+        // create the fourth column for each segment.
+        tr.append("td").attr("class",'legendPerc')
+            .text(function(d){ return getLegend(d,lD);});
+
+        // Utility function to be used to update the legend.
+        leg.update = function(nD){
+            // update the data attached to the row elements.
+            var l = legend.select("tbody").selectAll("tr").data(nD);
+
+            // update the frequencies.
+            l.select(".legendFreq").text(function(d){ return d3.format(",")(d.freq);});
+
+            // update the percentage column.
+            l.select(".legendPerc").text(function(d){ return getLegend(d,nD);});        
+        }
+        
+        function getLegend(d,aD){ // Utility function to compute percentage.
+            return d3.format("%")(d.freq/d3.sum(aD.map(function(v){ return v.freq; })));
+        }
+
+        return leg;
+    }
+    
+    // calculate total frequency by segment for all state.
+    var tF = ['low','mid','high'].map(function(d){ 
+        return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))}; 
+    });    
+    
+    // calculate total frequency by state for all segment.
+    var sF = fData.map(function(d){return [d.State,d.total];});
+
+    var hG = histoGram(sF), // create the histogram.
+        pC = pieChart(tF), // create the pie-chart.
+        leg= legend(tF);  // create the legend.
+
+</script>
+
+<script>
+    
+  var freqData=[
+      {State:'AL',freq:{low:4786, mid:1319, high:249}}
+      ,{State:'AZ',freq:{low:1101, mid:412, high:674}}
+      ,{State:'CT',freq:{low:932, mid:2149, high:418}}
+      ,{State:'DE',freq:{low:832, mid:1152, high:1862}}
+      ,{State:'FL',freq:{low:4481, mid:3304, high:948}}
+      ,{State:'GA',freq:{low:1619, mid:167, high:1063}}
+      ,{State:'IA',freq:{low:1819, mid:247, high:1203}}
+      ,{State:'IL',freq:{low:4498, mid:3852, high:942}}
+      ,{State:'IN',freq:{low:797, mid:1849, high:1534}}
+      ,{State:'KS',freq:{low:162, mid:379, high:471}}
+    ];
+
+  dashboard('#dashboard',freqData);
+</script>
 
 </body>
